@@ -1,0 +1,40 @@
+{
+  "game": {
+    "title": "Đuổi hình bắt chữ",
+    "language": "vi-VN",
+    "totalRounds": 2,
+    "timePerRound": 30,
+    "matchThreshold": 0.8,
+    "ttsVoice": "vi-VN",
+    "messages": {
+      "correct": "Chính xác! Bạn trả lời đúng rồi.",
+      "wrong": "Chưa chính xác. Đáp án là {keyword}.",
+      "finish": "Trò chơi kết thúc. Tổng điểm của bạn là {score} điểm."
+    }
+  },
+  "questions": [
+    {
+      "id": 1,
+      "image": "images/anchaodabat.jpg",
+      "keyword": "ăn cháo đá bát",
+      "acceptedAnswers": [
+        "ăn cháo đá bát",
+        "an chao da bat",
+        "ăn chao đa bat"
+      ],
+      "points": 10,
+      "sampleAudio": "audio/anchaodabat.wav"
+    },
+    {
+      "id": 2,
+      "image": "images/LLQ.jpg",
+      "keyword": "lạc long quân",
+      "acceptedAnswers": [
+        "lạc long quân",
+        "lac long quan"
+      ],
+      "points": 10,
+      "sampleAudio": "audio/LLQ.wav"
+    }
+  ]
+}
