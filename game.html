@@ -38,10 +38,23 @@
 
     </div>
 
-    <!-- PHẦN 3: JAVASCRIPT ĐỌC DỮ LIỆU VÀ HIỂN THỊ CÂU HỎI -->
+    <audio id="ttsAudio"></audio>
+
+    <!-- PHẦN 3: JAVASCRIPT ĐỌC DỮ LIỆU, HIỂN THỊ CÂU HỎI VÀ THU ÂM -->
     <script>
+        const BACKEND_URL = "http://localhost:5000";
+
         let questions = [];
         let currentIndex = 0;
+        let score = 0;
+
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let isRecording = false;
+
+        const micButton = document.getElementById("micButton");
+        const messageText = document.getElementById("messageText");
+        const speechText = document.getElementById("speechText");
 
         fetch("metadata.json")
             .then(response => response.json())
@@ -60,21 +73,98 @@
 
             const wordCount = question.keyword.trim().split(" ").length;
             document.getElementById("hintText").innerText = "Đáp án có " + wordCount + " chữ";
+
+            speechText.innerText = "Chưa có dữ liệu";
+            messageText.innerText = "Hãy nhấn micro để bắt đầu";
         }
 
-        /* 
-        PHẦN 4: VỊ TRÍ ĐỂ BACKEND KẾT NỐI SAU NÀY
-        Frontend chỉ tạo nút micro.
-        Backend sẽ xử lý:
-        - thu âm
-        - nhận dạng giọng nói
-        - so sánh đáp án
-        - trả kết quả đúng/sai
-        */
+        function ketThucGame() {
+            document.getElementById("questionTitle").innerText = "Hoàn thành!";
+            document.getElementById("hintText").innerText = "";
+            micButton.disabled = true;
+            messageText.innerText = `Trò chơi kết thúc. Tổng điểm của bạn là ${score} điểm.`;
+        }
 
-        document.getElementById("micButton").addEventListener("click", function () {
-            document.getElementById("messageText").innerText =
-                "Đang thu âm... (giả lập)";
+        async function batDauThuAm() {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            audioChunks = [];
+            mediaRecorder = new MediaRecorder(stream);
+
+            mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+            mediaRecorder.onstop = () => {
+                stream.getTracks().forEach(track => track.stop());
+                const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+                guiAmThanhLenServer(audioBlob);
+            };
+
+            mediaRecorder.start();
+            isRecording = true;
+            micButton.innerText = "⏹️ Nhấn để dừng";
+            messageText.innerText = "Đang thu âm...";
+        }
+
+        function dungThuAm() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                micButton.innerText = "🎙️ Nhấn để trả lời";
+                messageText.innerText = "Đang xử lý...";
+            }
+        }
+
+        async function guiAmThanhLenServer(audioBlob) {
+            const question = questions[currentIndex];
+            const formData = new FormData();
+            formData.append("audio_file", audioBlob, "ghi_am.webm");
+            formData.append("id_cau_hoi", question.id);
+
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/cham-diem`, {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await res.json();
+
+                if (data.error) {
+                    messageText.innerText = data.error;
+                    return;
+                }
+
+                speechText.innerText = `Bạn nói: "${data.asr_nghe_duoc}"`;
+
+                if (data.file_phan_hoi_url) {
+                    const ttsAudio = document.getElementById("ttsAudio");
+                    ttsAudio.src = BACKEND_URL + data.file_phan_hoi_url;
+                    ttsAudio.play();
+                }
+
+                if (data.ket_qua === "DUNG") {
+                    score += question.points || 0;
+                    document.getElementById("score").innerText = score;
+                    messageText.innerText = "Chính xác! Chuyển câu tiếp theo...";
+
+                    setTimeout(() => {
+                        currentIndex++;
+                        if (currentIndex < questions.length) {
+                            loadQuestion();
+                        } else {
+                            ketThucGame();
+                        }
+                    }, 2500);
+                } else {
+                    messageText.innerText = "Chưa chính xác, hãy thử lại.";
+                }
+            } catch (err) {
+                messageText.innerText = "Không kết nối được tới server.";
+            }
+        }
+
+        micButton.addEventListener("click", function () {
+            if (!isRecording) {
+                batDauThuAm();
+            } else {
+                dungThuAm();
+            }
         });
     </script>
 
