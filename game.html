@@ -1,80 +1,83 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Chơi game</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="game-page">
 
-<!-- PHẦN 1: THANH THÔNG TIN ĐIỂM VÀ SỐ CÂU -->
-<div class="top-bar">
-    <div>Điểm: <span id="score">0</span></div>
-    <div><span id="currentQuestion">1</span>/<span id="totalQuestion">2</span></div>
-</div>
-
-<!-- PHẦN 2: KHU VỰC CHƠI GAME -->
-<div class="game-content">
-
-    <div class="left-panel">
-        <h1 id="questionTitle">Câu 1</h1>
-
-        <h2 id="hintText">Đáp án có 4 chữ</h2>
-
-        <button id="micButton">
-            🎙️ Nhấn để trả lời
-        </button>
-
-        <p id="speechText">Chưa có dữ liệu</p>
-
-        <p id="messageText">Hãy nhấn micro để bắt đầu</p>
+    <!-- PHẦN 1: THANH THÔNG TIN ĐIỂM VÀ SỐ CÂU -->
+    <div class="top-bar">
+        <div>Điểm: <span id="score">0</span></div>
+        <div><span id="currentQuestion">1</span>/<span id="totalQuestion">2</span></div>
     </div>
 
-    <div class="right-panel">
-        <img id="questionImage" src="" alt="Ảnh câu đố">
+    <!-- PHẦN 2: KHU VỰC CHƠI GAME -->
+    <div class="game-content">
+
+        <div class="left-panel">
+            <h1 id="questionTitle">Câu 1</h1>
+
+            <h2 id="hintText">Đáp án có 4 chữ</h2>
+
+            <button id="micButton">
+                🎙️ Nhấn để trả lời
+            </button>
+
+            <p id="speechText">Chưa có dữ liệu</p>
+
+            <p id="messageText">Hãy nhấn micro để bắt đầu</p>
+        </div>
+
+        <div class="right-panel">
+            <img id="questionImage" src="" alt="Ảnh câu đố">
+        </div>
+
     </div>
 
-</div>
+    <!-- PHẦN 3: JAVASCRIPT ĐỌC DỮ LIỆU VÀ HIỂN THỊ CÂU HỎI -->
+    <script>
+        let questions = [];
+        let currentIndex = 0;
 
-<!-- PHẦN 3: JAVASCRIPT ĐỌC DỮ LIỆU VÀ HIỂN THỊ CÂU HỎI -->
-<script>
-let questions = [];
-let currentIndex = 0;
+        fetch("metadata.json")
+            .then(response => response.json())
+            .then(data => {
+                questions = data.questions;
+                document.getElementById("totalQuestion").innerText = questions.length;
+                loadQuestion();
+            });
 
-fetch("metadata.json")
-    .then(response => response.json())
-    .then(data => {
-        questions = data.questions;
-        document.getElementById("totalQuestion").innerText = questions.length;
-        loadQuestion();
-    });
+        function loadQuestion() {
+            const question = questions[currentIndex];
 
-function loadQuestion() {
-    const question = questions[currentIndex];
+            document.getElementById("currentQuestion").innerText = currentIndex + 1;
+            document.getElementById("questionTitle").innerText = "Câu " + (currentIndex + 1);
+            document.getElementById("questionImage").src = question.image;
 
-    document.getElementById("currentQuestion").innerText = currentIndex + 1;
-    document.getElementById("questionTitle").innerText = "Câu " + (currentIndex + 1);
-    document.getElementById("questionImage").src = question.image;
+            const wordCount = question.keyword.trim().split(" ").length;
+            document.getElementById("hintText").innerText = "Đáp án có " + wordCount + " chữ";
+        }
 
-    const wordCount = question.keyword.trim().split(" ").length;
-    document.getElementById("hintText").innerText = "Đáp án có " + wordCount + " chữ";
-}
+        /* 
+        PHẦN 4: VỊ TRÍ ĐỂ BACKEND KẾT NỐI SAU NÀY
+        Frontend chỉ tạo nút micro.
+        Backend sẽ xử lý:
+        - thu âm
+        - nhận dạng giọng nói
+        - so sánh đáp án
+        - trả kết quả đúng/sai
+        */
 
-/* 
-PHẦN 4: VỊ TRÍ ĐỂ BACKEND KẾT NỐI SAU NÀY
-Frontend chỉ tạo nút micro.
-Backend sẽ xử lý:
-- thu âm
-- nhận dạng giọng nói
-- so sánh đáp án
-- trả kết quả đúng/sai
-*/
-
-document.getElementById("micButton").addEventListener("click", function () {
-    document.getElementById("messageText").innerText =
-        "Đang thu âm... (giả lập)";
-});
-</script>
+        document.getElementById("micButton").addEventListener("click", function () {
+            document.getElementById("messageText").innerText =
+                "Đang thu âm... (giả lập)";
+        });
+    </script>
 
 </body>
+
 </html>

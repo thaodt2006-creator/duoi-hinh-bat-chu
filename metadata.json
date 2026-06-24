@@ -15,7 +15,7 @@
   "questions": [
     {
       "id": 1,
-      "image": "images/anchaodabat.jpg",
+      "image": "Images/anchaodabat.jpg",
       "keyword": "ăn cháo đá bát",
       "acceptedAnswers": [
         "ăn cháo đá bát",
@@ -27,7 +27,7 @@
     },
     {
       "id": 2,
-      "image": "images/LLQ.jpg",
+      "image": "Images/LLQ.jpg",
       "keyword": "lạc long quân",
       "acceptedAnswers": [
         "lạc long quân",
