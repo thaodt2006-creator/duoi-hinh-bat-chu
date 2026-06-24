@@ -1,0 +1,174 @@
+/* =====================================================
+   PHẦN 1: CSS DÙNG CHUNG
+===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+
+/* =====================================================
+   PHẦN 2: CSS TRANG CHỦ
+===================================================== */
+
+.home-page {
+    background: linear-gradient(to bottom, #9ed99d, #55d3dc);
+}
+
+.home-screen {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title-board {
+    margin-top: 95px;
+
+    width: 720px;
+    height: 330px;
+
+    background: #101018;
+
+    border: 18px solid #d8442f;
+    border-radius: 45px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow:
+        0 0 0 6px #ffb347,
+        0 0 25px rgba(255, 222, 89, 0.9);
+}
+
+.title-board h1 {
+    margin: 0;
+
+    font-family: 'Coiny', Arial, sans-serif;
+    color: #ffd45c;
+
+    font-size: 82px;
+    line-height: 1.1;
+
+    text-align: center;
+    font-weight: 400;
+}
+
+.start-button {
+    margin-top: 65px;
+
+    width: 260px;
+    padding: 16px 0;
+
+    background: #fff8b7;
+    color: #222;
+
+    text-decoration: none;
+    text-align: center;
+
+    border-radius: 30px;
+
+    font-size: 28px;
+}
+
+
+/* =====================================================
+   PHẦN 3: CSS TRANG CHƠI GAME
+===================================================== */
+
+.game-page {
+    min-height: 100vh;
+    background: linear-gradient(155deg, #63845c 0%, #0d7285 65%);
+    color: white;
+}
+
+.top-bar {
+    padding: 50px 70px 0;
+
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.top-bar div:last-child {
+    margin-right: 220px;
+}
+
+.game-content {
+    margin-top: 65px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 100px;
+}
+
+.left-panel {
+    width: 370px;
+    text-align: center;
+}
+
+.left-panel h1 {
+    font-size: 44px;
+    margin-bottom: 10px;
+}
+
+.left-panel h2 {
+    font-size: 26px;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+#micButton {
+    width: 270px;
+
+    padding: 18px 20px;
+
+    border: none;
+    border-radius: 25px;
+
+    background: #f4f4f4;
+    color: #222;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+#micButton:hover {
+    background: #fff8b7;
+}
+
+#speechText {
+    margin-top: 50px;
+
+    font-size: 23px;
+    font-weight: bold;
+}
+
+#messageText {
+    font-size: 22px;
+}
+
+.right-panel img {
+    width: 520px;
+    height: 390px;
+
+    object-fit: cover;
+
+    border: 3px solid white;
+    border-radius: 6px;
+}
