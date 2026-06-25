@@ -1,6 +1,6 @@
 flask
 flask-cors
-SpeechRecognition
 python-Levenshtein
 gTTS
 pydub
+vosk

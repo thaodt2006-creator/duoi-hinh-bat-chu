@@ -1,5 +1,6 @@
 import json
-import speech_recognition as sr
+from vosk import Model, KaldiRecognizer
+import wave
 import Levenshtein
 from gtts import gTTS
 from pydub import AudioSegment
@@ -7,13 +8,13 @@ import os
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
 
 with open("metadata.json", "r", encoding="utf-8") as f:
     config = json.load(f)
-
-recognizer = sr.Recognizer()
+    
+vosk_model = Model("vosk-model-small-vn-0.4")
 
 def chuan_hoa(text):
     return text.strip().lower()
@@ -47,15 +48,22 @@ def xu_ly_am_thanh():
 
     try:
         am_thanh = AudioSegment.from_file(duong_dan_goc)
-        am_thanh.set_frame_rate(16000).export(duong_dan_wav, format="wav")
+        am_thanh = am_thanh.set_channels(1).set_frame_rate(16000).set_sample_width(2)
+        am_thanh.export(duong_dan_wav, format="wav")
     except Exception as e:
         if os.path.exists(duong_dan_goc): os.remove(duong_dan_goc)
         return jsonify({"error": "Không thể đọc file âm thanh gửi lên"}), 400
 
     try:
-        with sr.AudioFile(duong_dan_wav) as source:
-            audio_data = recognizer.record(source)
-            van_ban_asr = recognizer.recognize_google(audio_data, language="vi-VN")
+        wf = wave.open(duong_dan_wav, "rb")
+        rec = KaldiRecognizer(vosk_model, wf.getframerate())
+        while True:
+            data = wf.readframes(4000)
+            if len(data) == 0:
+                break
+            rec.AcceptWaveform(data)
+        van_ban_asr = json.loads(rec.FinalResult()).get("text", "")
+        wf.close()
     except Exception as e:
         if os.path.exists(duong_dan_goc): os.remove(duong_dan_goc)
         if os.path.exists(duong_dan_wav): os.remove(duong_dan_wav)
