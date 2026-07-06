@@ -30,6 +30,15 @@
             <p id="speechText">Chưa có dữ liệu</p>
 
             <p id="messageText">Hãy nhấn micro để bắt đầu</p>
+
+            <div class="nav-buttons">
+                <button id="prevButton">
+                    ⬅️ Câu trước
+                </button>
+                <button id="nextButton">
+                    ➡️ Câu tiếp theo
+                </button>
+            </div>
         </div>
 
         <div class="right-panel">
@@ -141,16 +150,7 @@
                 if (data.ket_qua === "DUNG") {
                     score += question.points || 0;
                     document.getElementById("score").innerText = score;
-                    messageText.innerText = "Chính xác! Chuyển câu tiếp theo...";
-
-                    setTimeout(() => {
-                        currentIndex++;
-                        if (currentIndex < questions.length) {
-                            loadQuestion();
-                        } else {
-                            ketThucGame();
-                        }
-                    }, 2500);
+                    messageText.innerText = "Chính xác!";
                 } else {
                     messageText.innerText = "Chưa chính xác, hãy thử lại.";
                 }
@@ -164,6 +164,22 @@
                 batDauThuAm();
             } else {
                 dungThuAm();
+            }
+        });
+
+        document.getElementById("prevButton").addEventListener("click", function () {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadQuestion();
+            }
+        });
+
+        document.getElementById("nextButton").addEventListener("click", function () {
+            currentIndex++;
+            if (currentIndex < questions.length) {
+                loadQuestion();
+            } else {
+                ketThucGame();
             }
         });
     </script>

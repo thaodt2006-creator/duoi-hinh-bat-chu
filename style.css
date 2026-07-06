@@ -152,6 +152,36 @@ body {
     background: #fff8b7;
 }
 
+.nav-buttons {
+    margin-top: 16px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+#prevButton,
+#nextButton {
+    width: 270px;
+
+    padding: 18px 20px;
+
+    border: none;
+    border-radius: 25px;
+
+    background: #4cde8a;
+    color: #111;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+#prevButton:hover,
+#nextButton:hover {
+    background: #2ec96e;
+}
+
 #speechText {
     margin-top: 50px;
 
