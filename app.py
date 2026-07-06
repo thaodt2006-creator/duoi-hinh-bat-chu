@@ -1,4 +1,5 @@
 import json
+import re
 from vosk import Model, KaldiRecognizer
 import wave
 import Levenshtein
@@ -17,13 +18,64 @@ with open("metadata.json", "r", encoding="utf-8") as f:
 vosk_model = Model("vosk-model-small-vn-0.4")
 
 def chuan_hoa(text):
-    return text.strip().lower()
+    text = text.strip().lower()
+    # Bỏ dấu câu (giữ lại chữ cái tiếng Việt, số, khoảng trắng)
+    text = re.sub(r"[^\w\s\u00C0-\u024F\u1E00-\u1EFF]", "", text)
+    # Gộp nhiều khoảng trắng liên tiếp thành 1
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
 
 def tinh_do_tuong_dong(chuoi1, chuoi2):
     distance = Levenshtein.distance(chuoi1, chuoi2)
     max_len = max(len(chuoi1), len(chuoi2))
     if max_len == 0: return 1.0
     return 1.0 - (distance / max_len)
+def lcs_length(s1, s2):
+    m, n = len(s1), len(s2)
+    dp = [ [0] * (n + 1) for _ in range(m + 1)]
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if s1[i - 1] == s2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+    return dp[m][n]
+
+def tinh_do_tuong_dong_lcs(recognized_text, answer_text):
+    if len(recognized_text) == 0 or len(answer_text) == 0:
+        return 0.0
+    lcs_len = lcs_length(recognized_text, answer_text)
+    max_len = max(len(recognized_text), len(answer_text))
+    return lcs_len / max_len
+
+def so_khop_va_quyet_dinh(text_tu_vosk, acceptedAnswers, matchThreshold=0.8):
+    input_text = chuan_hoa(text_tu_vosk)
+    max_score_lev = 0.0
+    max_score_lcs = 0.0
+    
+    for dap_an in acceptedAnswers:
+        dap_an_chuan = chuan_hoa(dap_an)
+        
+        # Chạy thuật toán Levenshtein
+        score_lev = tinh_do_tuong_dong(input_text, dap_an_chuan)
+        if score_lev > max_score_lev: max_score_lev = score_lev
+            
+        # Chạy thuật toán LCS
+        score_lcs = tinh_do_tuong_dong_lcs(input_text, dap_an_chuan)
+        if score_lcs > max_score_lcs: max_score_lcs = score_lcs
+
+    # Ghi log ra Terminal 
+    print(f"\n[KIỂM THỬ THUẬT TOÁN]")
+    print(f"Nhận dạng từ STT : '{input_text}'")
+    print(f"Điểm Levenshtein : {max_score_lev:.2f}")
+    print(f"Điểm LCS         : {max_score_lcs:.2f}")
+    print(f"-----------------------------------\n")
+
+    # Quyết định lấy Levenshtein làm chuẩn
+    if max_score_lev >= matchThreshold:
+        return True, max_score_lev 
+    else:
+        return False, max_score_lev 
 
 @app.route('/api/cham-diem', methods=['POST'])
 def xu_ly_am_thanh():
@@ -69,16 +121,10 @@ def xu_ly_am_thanh():
         if os.path.exists(duong_dan_wav): os.remove(duong_dan_wav)
         return jsonify({"error": "Không thể nhận diện giọng nói"}), 500
 
-    chuoi_nguoi_dung = chuan_hoa(van_ban_asr)
-    do_khop_cao_nhat = 0.0
+# hàm tích hợp cả Levenshtein và LCS
+    is_correct, do_khop_cao_nhat = so_khop_va_quyet_dinh(van_ban_asr, danh_sach_chap_nhan, threshold)
+    trang_thai = "DUNG" if is_correct else "SAI"
 
-    for dap_an in danh_sach_chap_nhan:
-        chuoi_chuan = chuan_hoa(dap_an)
-        do_tuong_dong = tinh_do_tuong_dong(chuoi_nguoi_dung, chuoi_chuan)
-        if do_tuong_dong > do_khop_cao_nhat:
-            do_khop_cao_nhat = do_tuong_dong
-
-    trang_thai = "DUNG" if do_khop_cao_nhat >= threshold else "SAI"
     loi_nhan = config["game"]["messages"]["correct"] if trang_thai == "DUNG" else config["game"]["messages"]["wrong"].format(keyword=dap_an_goc)
 
     tts = gTTS(text=loi_nhan, lang="vi")
