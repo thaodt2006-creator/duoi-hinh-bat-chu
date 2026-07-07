@@ -2,7 +2,7 @@
   "game": {
     "title": "Đuổi hình bắt chữ",
     "language": "vi-VN",
-    "totalRounds": 2,
+    "totalRounds": 10,
     "timePerRound": 30,
     "matchThreshold": 0.8,
     "ttsVoice": "vi-VN",
@@ -67,6 +67,62 @@
         "bút sa ga chêt"
       ],
       "matchThreshold": 0.9,
+      "points": 10
+    },
+    {
+      "id": 6,
+      "image": "Images/dongcamcongkho.jpg",
+      "keyword": "đồng cam cộng khổ",
+      "acceptedAnswers": [
+        "đồng cam cộng khổ",
+        "đòng cam cộng khổ",
+        "đòng cam cộng khỏ"
+      ],
+      "matchThreshold": 0.9,
+      "points": 10
+    },
+    {
+      "id": 7,
+      "image": "Images/imlanglavang.jpg",
+      "keyword": "im lặng là vàng",
+      "acceptedAnswers": [
+        "im lặng là vàng",
+        "im lang la vang",
+        "im lặng la vàng"
+      ],
+      "points": 10
+    },
+    {
+      "id": 8,
+      "image": "Images/nuocchaydamon.jpg",
+      "keyword": "nước chảy đá mòn",
+      "acceptedAnswers": [
+        "nước chảy đá mòn",
+        "nuoc chay da mon",
+        "nước chay đá mòn"
+      ],
+      "points": 10
+    },
+    {
+      "id": 9,
+      "image": "Images/matngotchetruoi.jpg",
+      "keyword": "mật ngọt chết ruồi",
+      "acceptedAnswers": [
+        "mật ngọt chết ruồi",
+        "mat ngot chet ruoi",
+        "mật ngọt chết ruôi"
+      ],
+      "points": 10
+    },
+    {
+      "id": 10,
+      "image": "Images/vatchanhbovo.jpg",
+      "keyword": "vắt chanh bỏ vỏ",
+      "acceptedAnswers": [
+        "vắt chanh bỏ vỏ",
+        "vat chanh bo vo",
+        "vắt chanh bo vỏ"
+      ],
       "points": 10
     }
   ]
