@@ -1,14 +1,4 @@
-/* =====================================================
-   FONT
-===================================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&display=swap');
-
-
-/* =====================================================
-   BIẾN TOÀN CỤC
-===================================================== */
 
 :root {
   --blue-deep: #1248c4;
@@ -22,28 +12,22 @@
   --art-h: min(100vh, 55.814vw);
 }
 
-
-/* =====================================================
-   RESET DÙNG CHUNG
-===================================================== */
-
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
 
 /* =====================================================
-   TRANG CHỦ MỚI (index (1).html) — class: title-screen
+   TRANG CHỦ MỚI (index.html) — class: title-screen
 ===================================================== */
 
 html.title-screen,
 body.title-screen {
-  margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
@@ -92,7 +76,6 @@ body.title-screen {
     0 calc(var(--art-w) * 0.009) calc(var(--art-w) * 0.014) rgba(0, 0, 0, 0.35),
     inset 0 calc(var(--art-w) * 0.0018) 0 rgba(255, 255, 255, 0.55);
 
-  font-family: 'Baloo 2', system-ui, sans-serif;
   font-weight: 800;
   font-size: clamp(1.15rem, calc(var(--art-w) * 0.036), 3.1rem);
   letter-spacing: 0.04em;
@@ -128,12 +111,15 @@ body.title-screen {
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow:
       0 calc(var(--art-w) * 0.0065) 0 var(--orange-shadow),
       0 calc(var(--art-w) * 0.009) calc(var(--art-w) * 0.014) rgba(255, 150, 40, 0.35),
       inset 0 calc(var(--art-w) * 0.0018) 0 rgba(255, 255, 255, 0.55);
   }
+
   50% {
     box-shadow:
       0 calc(var(--art-w) * 0.0065) 0 var(--orange-shadow),
@@ -150,159 +136,105 @@ body.title-screen {
 
 
 /* =====================================================
-   TRANG CHỦ CŨ (index.html) — class: home-page
-===================================================== */
-
-.home-page {
-    background: linear-gradient(to bottom, #9ed99d, #55d3dc);
-}
-
-.home-screen {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.title-board {
-    margin-top: 95px;
-    width: 720px;
-    height: 330px;
-    background: #101018;
-    border: 18px solid #d8442f;
-    border-radius: 45px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow:
-        0 0 0 6px #ffb347,
-        0 0 25px rgba(255, 222, 89, 0.9);
-}
-
-.title-board h1 {
-    margin: 0;
-    font-family: 'Coiny', Arial, sans-serif;
-    color: #ffd45c;
-    font-size: 82px;
-    line-height: 1.1;
-    text-align: center;
-    font-weight: 400;
-}
-
-.start-button {
-    margin-top: 65px;
-    width: 260px;
-    padding: 16px 0;
-    background: #fff8b7;
-    color: #222;
-    text-decoration: none;
-    text-align: center;
-    border-radius: 30px;
-    font-size: 28px;
-}
-
-
-/* =====================================================
    TRANG CHƠI GAME (game.html) — class: game-page
 ===================================================== */
 
 .game-page {
-    min-height: 100vh;
-    background: linear-gradient(to bottom, #9ed99d, #55d3dc);
-    color: white;
+  min-height: 100vh;
+  background: #1248c4;
+  color: white;
 }
 
 .top-bar {
-    padding: 50px 70px 0;
-    display: flex;
-    justify-content: space-between;
-    font-size: 36px;
-    font-weight: bold;
+  padding: 50px 70px 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 36px;
+  font-weight: bold;
 }
 
 .top-bar div:last-child {
-    margin-right: 220px;
+  margin-right: 220px;
 }
 
 .game-content {
-    margin-top: 65px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 100px;
+  margin-top: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
 }
 
 .left-panel {
-    width: 370px;
-    text-align: center;
+  width: 370px;
+  text-align: center;
 }
 
 .left-panel h1 {
-    font-size: 44px;
-    margin-bottom: 10px;
+  font-size: 44px;
+  margin-bottom: 10px;
 }
 
 .left-panel h2 {
-    font-size: 26px;
-    margin-top: 0;
-    margin-bottom: 30px;
+  font-size: 26px;
+  margin-top: 0;
+  margin-bottom: 30px;
 }
 
 #micButton {
-    width: 270px;
-    padding: 18px 20px;
-    border: none;
-    border-radius: 25px;
-    background: #f4f4f4;
-    color: #222;
-    font-size: 20px;
-    cursor: pointer;
+  width: 270px;
+  padding: 18px 20px;
+  border: none;
+  border-radius: 25px;
+  background: #f4f4f4;
+  color: #222;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 #micButton:hover {
-    background: #fff8b7;
+  background: #fff8b7;
 }
 
 .nav-buttons {
-    margin-top: 16px;
-    display: flex;
-    gap: 12px;
-    justify-content: center;
+  margin-top: 16px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
 }
 
 #prevButton,
 #nextButton {
-    width: 270px;
-    padding: 18px 20px;
-    border: none;
-    border-radius: 25px;
-    background: #4cde8a;
-    color: #111;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
+  width: 270px;
+  padding: 18px 20px;
+  border: none;
+  border-radius: 25px;
+  background: #4cde8a;
+  color: #111;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 #prevButton:hover,
 #nextButton:hover {
-    background: #2ec96e;
+  background: #2ec96e;
 }
 
 #speechText {
-    margin-top: 50px;
-    font-size: 23px;
-    font-weight: bold;
+  margin-top: 50px;
+  font-size: 23px;
+  font-weight: bold;
 }
 
 #messageText {
-    font-size: 22px;
+  font-size: 22px;
 }
 
 .right-panel img {
-    width: 520px;
-    height: 390px;
-    object-fit: cover;
-    border: 3px solid white;
-    border-radius: 6px;
+  width: 520px;
+  height: 390px;
+  object-fit: cover;
+  border: 3px solid white;
+  border-radius: 6px;
 }
