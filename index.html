@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Đuổi hình bắt chữ</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Đuổi Hình Bắt Chữ</title>
+
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="home-page">
 
-<!-- PHẦN 1: TRANG CHỦ -->
-<div class="home-screen">
-    <div class="title-board">
-        <h1>Đuổi hình<br>bắt chữ</h1>
+<body class="title-screen">
+
+  <main class="stage">
+    <div class="art">
+      <img class="art__bg" src="Images/background.png" alt="Đuổi Hình Bắt Chữ">
+
+      <button type="button" class="start-btn" id="startBtn">
+        <span class="start-btn__label">Bắt Đầu</span>
+      </button>
     </div>
+  </main>
 
-    <a href="game.html" class="start-button">Bắt đầu</a>
-</div>
+  <script>
+    document.getElementById('startBtn').addEventListener('click', function () {
+      window.location.href = 'game.html';
+    });
+  </script>
 
 </body>
+
 </html>

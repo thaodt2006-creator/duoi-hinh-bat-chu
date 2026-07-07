@@ -1,8 +1,31 @@
 /* =====================================================
-   PHẦN 1: CSS DÙNG CHUNG
+   FONT
 ===================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&display=swap');
+
+
+/* =====================================================
+   BIẾN TOÀN CỤC
+===================================================== */
+
+:root {
+  --blue-deep: #1248c4;
+  --orange-top: #ffc06a;
+  --orange-mid: #ff8a1e;
+  --orange-deep: #f85d01;
+  --orange-shadow: #b83d00;
+  --white: #ffffff;
+
+  --art-w: min(100vw, 179.1667vh);
+  --art-h: min(100vh, 55.814vw);
+}
+
+
+/* =====================================================
+   RESET DÙNG CHUNG
+===================================================== */
 
 * {
     box-sizing: border-box;
@@ -15,7 +38,119 @@ body {
 
 
 /* =====================================================
-   PHẦN 2: CSS TRANG CHỦ
+   TRANG CHỦ MỚI (index (1).html) — class: title-screen
+===================================================== */
+
+html.title-screen,
+body.title-screen {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--blue-deep);
+  overflow: hidden;
+  font-family: 'Baloo 2', system-ui, sans-serif;
+}
+
+.stage {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.art {
+  position: relative;
+  width: var(--art-w);
+  height: var(--art-h);
+}
+
+.art__bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  pointer-events: none;
+}
+
+.start-btn {
+  position: absolute;
+  top: 73%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  border: calc(var(--art-w) * 0.0045) solid var(--white);
+  border-radius: 999px;
+  padding: calc(var(--art-h) * 0.017) calc(var(--art-w) * 0.052);
+  cursor: pointer;
+
+  background: linear-gradient(180deg, var(--orange-top) 0%, var(--orange-mid) 48%, var(--orange-deep) 100%);
+  box-shadow:
+    0 calc(var(--art-w) * 0.0065) 0 var(--orange-shadow),
+    0 calc(var(--art-w) * 0.009) calc(var(--art-w) * 0.014) rgba(0, 0, 0, 0.35),
+    inset 0 calc(var(--art-w) * 0.0018) 0 rgba(255, 255, 255, 0.55);
+
+  font-family: 'Baloo 2', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.15rem, calc(var(--art-w) * 0.036), 3.1rem);
+  letter-spacing: 0.04em;
+  color: var(--white);
+  text-shadow:
+    0 calc(var(--art-w) * 0.0016) 0 rgba(120, 40, 0, 0.9),
+    0 calc(var(--art-w) * 0.003) calc(var(--art-w) * 0.005) rgba(0, 0, 0, 0.3);
+
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}
+
+.start-btn__label {
+  display: inline-block;
+}
+
+.start-btn:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.start-btn:active {
+  transform: translate(-50%, calc(-50% + var(--art-w) * 0.0055)) scale(0.98);
+  box-shadow:
+    0 calc(var(--art-w) * 0.0015) 0 var(--orange-shadow),
+    0 calc(var(--art-w) * 0.003) calc(var(--art-w) * 0.006) rgba(0, 0, 0, 0.3),
+    inset 0 calc(var(--art-w) * 0.0018) 0 rgba(255, 255, 255, 0.55);
+  animation-play-state: paused;
+}
+
+.start-btn:focus-visible {
+  outline: calc(var(--art-w) * 0.003) dashed var(--white);
+  outline-offset: calc(var(--art-w) * 0.005);
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow:
+      0 calc(var(--art-w) * 0.0065) 0 var(--orange-shadow),
+      0 calc(var(--art-w) * 0.009) calc(var(--art-w) * 0.014) rgba(255, 150, 40, 0.35),
+      inset 0 calc(var(--art-w) * 0.0018) 0 rgba(255, 255, 255, 0.55);
+  }
+  50% {
+    box-shadow:
+      0 calc(var(--art-w) * 0.0065) 0 var(--orange-shadow),
+      0 calc(var(--art-w) * 0.009) calc(var(--art-w) * 0.026) rgba(255, 150, 40, 0.65),
+      inset 0 calc(var(--art-w) * 0.0018) 0 rgba(255, 255, 255, 0.55);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .start-btn {
+    animation: none;
+  }
+}
+
+
+/* =====================================================
+   TRANG CHỦ CŨ (index.html) — class: home-page
 ===================================================== */
 
 .home-page {
@@ -25,7 +160,6 @@ body {
 .home-screen {
     width: 100vw;
     height: 100vh;
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,19 +167,14 @@ body {
 
 .title-board {
     margin-top: 95px;
-
     width: 720px;
     height: 330px;
-
     background: #101018;
-
     border: 18px solid #d8442f;
     border-radius: 45px;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     box-shadow:
         0 0 0 6px #ffb347,
         0 0 25px rgba(255, 222, 89, 0.9);
@@ -53,51 +182,41 @@ body {
 
 .title-board h1 {
     margin: 0;
-
     font-family: 'Coiny', Arial, sans-serif;
     color: #ffd45c;
-
     font-size: 82px;
     line-height: 1.1;
-
     text-align: center;
     font-weight: 400;
 }
 
 .start-button {
     margin-top: 65px;
-
     width: 260px;
     padding: 16px 0;
-
     background: #fff8b7;
     color: #222;
-
     text-decoration: none;
     text-align: center;
-
     border-radius: 30px;
-
     font-size: 28px;
 }
 
 
 /* =====================================================
-   PHẦN 3: CSS TRANG CHƠI GAME
+   TRANG CHƠI GAME (game.html) — class: game-page
 ===================================================== */
 
 .game-page {
     min-height: 100vh;
-    background: linear-gradient(155deg, #63845c 0%, #0d7285 65%);
+    background: linear-gradient(to bottom, #9ed99d, #55d3dc);
     color: white;
 }
 
 .top-bar {
     padding: 50px 70px 0;
-
     display: flex;
     justify-content: space-between;
-
     font-size: 36px;
     font-weight: bold;
 }
@@ -108,11 +227,9 @@ body {
 
 .game-content {
     margin-top: 65px;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     gap: 100px;
 }
 
@@ -134,17 +251,12 @@ body {
 
 #micButton {
     width: 270px;
-
     padding: 18px 20px;
-
     border: none;
     border-radius: 25px;
-
     background: #f4f4f4;
     color: #222;
-
     font-size: 20px;
-
     cursor: pointer;
 }
 
@@ -162,18 +274,13 @@ body {
 #prevButton,
 #nextButton {
     width: 270px;
-
     padding: 18px 20px;
-
     border: none;
     border-radius: 25px;
-
     background: #4cde8a;
     color: #111;
-
     font-size: 20px;
     font-weight: bold;
-
     cursor: pointer;
 }
 
@@ -184,7 +291,6 @@ body {
 
 #speechText {
     margin-top: 50px;
-
     font-size: 23px;
     font-weight: bold;
 }
@@ -196,9 +302,7 @@ body {
 .right-panel img {
     width: 520px;
     height: 390px;
-
     object-fit: cover;
-
     border: 3px solid white;
     border-radius: 6px;
 }
