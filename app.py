@@ -116,7 +116,7 @@ def xu_ly_am_thanh():
 
     is_correct, do_khop_cao_nhat = so_khop_va_quyet_dinh(van_ban_asr, danh_sach_chap_nhan, threshold)
     trang_thai = "DUNG" if is_correct else "SAI"
-    loi_nhan = config["game"]["messages"]["correct"] if trang_thai == "DUNG" else config["game"]["messages"]["wrong"].format(keyword=dap_an_goc)
+    loi_nhan = config["game"]["messages"]["correct"] if trang_thai == "DUNG" else config["game"]["messages"]["wrong"].format()
 
     tts = gTTS(text=loi_nhan, lang="vi")
     file_ket_qua = f"phan_hoi_{id_cau_hoi}.mp3"

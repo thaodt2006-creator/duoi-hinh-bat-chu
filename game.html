@@ -60,6 +60,7 @@
         let mediaRecorder = null;
         let audioChunks = [];
         let isRecording = false;
+        const daChamDiem = new Set();
 
         const micButton = document.getElementById("micButton");
         const messageText = document.getElementById("messageText");
@@ -143,13 +144,16 @@
 
                 if (data.file_phan_hoi_url) {
                     const ttsAudio = document.getElementById("ttsAudio");
-                    ttsAudio.src = BACKEND_URL + data.file_phan_hoi_url;
+                    ttsAudio.src = BACKEND_URL + data.file_phan_hoi_url + "?t=" + Date.now();
                     ttsAudio.play();
                 }
 
                 if (data.ket_qua === "DUNG") {
-                    score += question.points || 0;
-                    document.getElementById("score").innerText = score;
+                    if (!daChamDiem.has(currentIndex)) {
+                        daChamDiem.add(currentIndex);
+                        score += question.points || 0;
+                        document.getElementById("score").innerText = score;
+                    }
                     messageText.innerText = "Chính xác!";
                 } else {
                     messageText.innerText = "Chưa chính xác, hãy thử lại.";
