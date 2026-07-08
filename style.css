@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&display=swap');
-
 :root {
   --blue-deep: #1248c4;
   --orange-top: #ffc06a;
@@ -23,7 +21,7 @@ body {
 
 
 /* =====================================================
-   TRANG CHỦ MỚI (index.html) — class: title-screen
+   TRANG CHỦ (batdau.html) — class: title-screen
 ===================================================== */
 
 html.title-screen,
@@ -33,7 +31,7 @@ body.title-screen {
   height: 100%;
   background: var(--blue-deep);
   overflow: hidden;
-  font-family: 'Baloo 2', system-ui, sans-serif;
+  font-family: 'Arial', system-ui, sans-serif;
 }
 
 .stage {
@@ -64,7 +62,7 @@ body.title-screen {
   top: 73%;
   left: 50%;
   transform: translate(-50%, -50%);
-
+  font-family: 'Arial', system-ui, sans-serif;
   border: calc(var(--art-w) * 0.0045) solid var(--white);
   border-radius: 999px;
   padding: calc(var(--art-h) * 0.017) calc(var(--art-w) * 0.052);
@@ -255,4 +253,341 @@ body.title-screen {
 
 #homeButton:hover {
   background: #ffb040;
+}
+
+
+/* =====================================================
+   TRANG ADMIN (admin.html) — class: admin-page
+===================================================== */
+
+#loginScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #1248c4;
+  gap: 12px;
+}
+
+#loginScreen h1 {
+  color: white;
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+#loginScreen input {
+  width: 280px;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+}
+
+#loginScreen button {
+  width: 280px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #ff8a1e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#loginScreen button:hover {
+  background: #e07010;
+}
+
+#loginError {
+  color: #ffcccc;
+  font-size: 14px;
+  min-height: 20px;
+}
+
+#adminScreen {
+  display: none;
+}
+
+.admin-header {
+  background: #1248c4;
+  color: white;
+  padding: 14px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-header h1 {
+  font-size: 20px;
+}
+
+.admin-header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.admin-header a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+}
+
+.admin-header a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-header button {
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.admin-header button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.admin-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.card h2 {
+  color: #1248c4;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.image-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.upload-box {
+  width: 180px;
+  height: 135px;
+  border: 2px dashed #bbb;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #888;
+  font-size: 13px;
+  text-align: center;
+  gap: 6px;
+  transition: border-color 0.2s;
+}
+
+.upload-box:hover {
+  border-color: #1248c4;
+  color: #1248c4;
+}
+
+.upload-box svg {
+  width: 32px;
+  height: 32px;
+  opacity: 0.5;
+}
+
+#anhPreview {
+  width: 180px;
+  height: 135px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  display: none;
+}
+
+#anhInput {
+  display: none;
+}
+
+.choose-file-btn {
+  padding: 6px 14px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+}
+
+.choose-file-btn:hover {
+  background: #f5f5f5;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-fields label {
+  display: block;
+  font-weight: bold;
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 4px;
+}
+
+.form-fields input[type="text"],
+.form-fields input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-fields input:focus {
+  border-color: #1248c4;
+}
+
+.dap-an-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.submit-btn {
+  padding: 12px;
+  background: #1248c4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.submit-btn:hover {
+  background: #0d39a0;
+}
+
+#formMessage {
+  font-size: 14px;
+  margin-top: 8px;
+  min-height: 20px;
+}
+
+.success {
+  color: #1a8a2e;
+}
+
+.error {
+  color: #c0392b;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #f5f7ff;
+  color: #1248c4;
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 13px;
+  border-bottom: 2px solid #e0e5f5;
+  white-space: nowrap;
+}
+
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: #f9faff;
+}
+
+.thumb {
+  width: 88px;
+  height: 66px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.keyword-cell {
+  font-weight: bold;
+  color: #111;
+}
+
+.answers-cell {
+  color: #555;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.badge {
+  display: inline-block;
+  background: #eef0ff;
+  color: #1248c4;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.delete-btn {
+  padding: 6px 14px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+  font-size: 15px;
 }
