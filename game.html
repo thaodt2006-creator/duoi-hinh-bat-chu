@@ -39,6 +39,10 @@
                     ➡️ Câu tiếp theo
                 </button>
             </div>
+
+            <button id="homeButton" onclick="window.location.href='index.html'">
+                🏠 Trang chủ
+            </button>
         </div>
 
         <div class="right-panel">
@@ -88,11 +92,30 @@
             messageText.innerText = "Hãy nhấn micro để bắt đầu";
         }
 
+        function docTTS(text) {
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'vi-VN';
+            utterance.rate = 0.9;
+            speechSynthesis.speak(utterance);
+        }
+
         function ketThucGame() {
+            const soCauDung = daChamDiem.size;
+            const tongCau = questions.length;
+            const ketQuaText = `Trò chơi kết thúc! Bạn đã trả lời đúng ${soCauDung} trên ${tongCau} câu.`;
+
             document.getElementById("questionTitle").innerText = "Hoàn thành!";
             document.getElementById("hintText").innerText = "";
+            document.getElementById("questionImage").style.display = "none";
             micButton.disabled = true;
-            messageText.innerText = `Trò chơi kết thúc. Tổng điểm của bạn là ${score} điểm.`;
+            document.getElementById("prevButton").disabled = true;
+            document.getElementById("nextButton").disabled = true;
+            document.getElementById("homeButton").style.display = "block";
+            messageText.innerText = ketQuaText;
+
+            setTimeout(() => docTTS(ketQuaText), 600);
         }
 
         async function batDauThuAm() {

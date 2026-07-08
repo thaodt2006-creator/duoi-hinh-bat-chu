@@ -238,3 +238,21 @@ body.title-screen {
   border: 3px solid white;
   border-radius: 6px;
 }
+
+#homeButton {
+  display: none;
+  margin-top: 16px;
+  width: 270px;
+  padding: 18px 20px;
+  border: none;
+  border-radius: 25px;
+  background: #ffc06a;
+  color: #222;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#homeButton:hover {
+  background: #ffb040;
+}

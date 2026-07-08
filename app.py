@@ -8,6 +8,7 @@ from pydub import AudioSegment
 import os
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
@@ -137,6 +138,70 @@ def xu_ly_am_thanh():
 @app.route('/api/audio/<ten_file>')
 def lay_audio_phan_hoi(ten_file):
     return send_from_directory('.', ten_file, mimetype='audio/mpeg')
+
+
+# ── ADMIN API ──────────────────────────────────────────────────────────────────
+
+@app.route('/api/admin/cau-hoi', methods=['GET'])
+def admin_lay_danh_sach():
+    return jsonify(config["questions"])
+
+
+@app.route('/api/admin/them-cau-hoi', methods=['POST'])
+def admin_them_cau_hoi():
+    global config
+
+    if 'anh' not in request.files:
+        return jsonify({"error": "Thiếu file ảnh"}), 400
+
+    file_anh = request.files['anh']
+    tu_khoa = request.form.get('tu_khoa', '').strip()
+    dap_an_list = [d for d in request.form.getlist('dap_an') if d.strip()]
+    diem = int(request.form.get('diem', 10))
+
+    if not tu_khoa:
+        return jsonify({"error": "Thiếu từ khóa"}), 400
+    if not dap_an_list:
+        dap_an_list = [tu_khoa]
+
+    max_id = max((q['id'] for q in config['questions']), default=0)
+    new_id = max_id + 1
+
+    ext = os.path.splitext(secure_filename(file_anh.filename))[1] or '.jpg'
+    ten_file_luu = f"{new_id}{ext}"
+    os.makedirs('Images', exist_ok=True)
+    file_anh.save(os.path.join('Images', ten_file_luu))
+
+    new_question = {
+        "id": new_id,
+        "image": f"Images/{ten_file_luu}",
+        "keyword": tu_khoa,
+        "acceptedAnswers": dap_an_list,
+        "points": diem
+    }
+    config['questions'].append(new_question)
+
+    with open('metadata.json', 'w', encoding='utf-8') as f:
+        json.dump(config, f, ensure_ascii=False, indent=2)
+
+    return jsonify({"success": True, "cau_hoi": new_question})
+
+
+@app.route('/api/admin/xoa-cau-hoi/<int:id_cau_hoi>', methods=['DELETE'])
+def admin_xoa_cau_hoi(id_cau_hoi):
+    global config
+
+    cau_hoi = next((q for q in config['questions'] if q['id'] == id_cau_hoi), None)
+    if cau_hoi is None:
+        return jsonify({"error": "Không tìm thấy câu hỏi"}), 404
+
+    config['questions'] = [q for q in config['questions'] if q['id'] != id_cau_hoi]
+
+    with open('metadata.json', 'w', encoding='utf-8') as f:
+        json.dump(config, f, ensure_ascii=False, indent=2)
+
+    return jsonify({"success": True})
+
 
 if __name__ == '__main__':
     print("MÁY CHỦ AI ĐANG CHẠY TẠI CỔNG 5000...")

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Đuổi Hình Bắt Chữ</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; min-height: 100vh; }
+
+        /* ---- Màn hình đăng nhập ---- */
+        #loginScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #1248c4;
+            gap: 12px;
+        }
+        #loginScreen h1 { color: white; font-size: 26px; margin-bottom: 8px; }
+        #loginScreen input {
+            width: 280px;
+            padding: 12px 16px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+        }
+        #loginScreen button {
+            width: 280px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            background: #ff8a1e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #loginScreen button:hover { background: #e07010; }
+        #loginError { color: #ffcccc; font-size: 14px; min-height: 20px; }
+
+        /* ---- Admin screen ---- */
+        #adminScreen { display: none; }
+
+        .header {
+            background: #1248c4;
+            color: white;
+            padding: 14px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 { font-size: 20px; }
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+        .header a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 6px 14px;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 6px;
+        }
+        .header a:hover { background: rgba(255,255,255,0.1); }
+        .header button {
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .header button:hover { background: rgba(255,255,255,0.25); }
+
+        .main-content { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+        /* ---- Form thêm câu hỏi ---- */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .card h2 { color: #1248c4; font-size: 18px; margin-bottom: 20px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .image-upload { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .upload-box {
+            width: 180px;
+            height: 135px;
+            border: 2px dashed #bbb;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #888;
+            font-size: 13px;
+            text-align: center;
+            gap: 6px;
+            transition: border-color 0.2s;
+        }
+        .upload-box:hover { border-color: #1248c4; color: #1248c4; }
+        .upload-box svg { width: 32px; height: 32px; opacity: 0.5; }
+        #anhPreview {
+            width: 180px;
+            height: 135px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            display: none;
+        }
+        #anhInput { display: none; }
+        .choose-file-btn {
+            padding: 6px 14px;
+            font-size: 13px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+        }
+        .choose-file-btn:hover { background: #f5f5f5; }
+
+        .form-fields { display: flex; flex-direction: column; gap: 14px; }
+        .form-fields label {
+            display: block;
+            font-weight: bold;
+            font-size: 13px;
+            color: #444;
+            margin-bottom: 4px;
+        }
+        .form-fields input[type="text"],
+        .form-fields input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-fields input:focus { border-color: #1248c4; }
+        .dap-an-group { display: flex; flex-direction: column; gap: 6px; }
+
+        .submit-btn {
+            padding: 12px;
+            background: #1248c4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 4px;
+        }
+        .submit-btn:hover { background: #0d39a0; }
+        #formMessage { font-size: 14px; margin-top: 8px; min-height: 20px; }
+        .success { color: #1a8a2e; }
+        .error { color: #c0392b; }
+
+        /* ---- Danh sách câu hỏi ---- */
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            background: #f5f7ff;
+            color: #1248c4;
+            text-align: left;
+            padding: 12px 14px;
+            font-size: 13px;
+            border-bottom: 2px solid #e0e5f5;
+            white-space: nowrap;
+        }
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+            font-size: 14px;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f9faff; }
+
+        .thumb {
+            width: 88px;
+            height: 66px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .keyword-cell { font-weight: bold; color: #111; }
+        .answers-cell { color: #555; font-size: 13px; line-height: 1.6; }
+        .badge {
+            display: inline-block;
+            background: #eef0ff;
+            color: #1248c4;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .delete-btn {
+            padding: 6px 14px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .delete-btn:hover { background: #c0392b; }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Màn hình đăng nhập -->
+<div id="loginScreen">
+    <h1>Đăng nhập Admin</h1>
+    <input type="password" id="passwordInput" placeholder="Nhập mật khẩu"
+        onkeydown="if(event.key==='Enter') dangNhap()">
+    <button onclick="dangNhap()">Đăng nhập</button>
+    <p id="loginError"></p>
+</div>
+
+<!-- Màn hình quản lý -->
+<div id="adminScreen">
+    <div class="header">
+        <h1>Admin — Đuổi Hình Bắt Chữ</h1>
+        <div class="header-actions">
+            <a href="index.html">Trang chủ</a>
+            <button onclick="dangXuat()">Đăng xuất</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <!-- Form thêm câu hỏi -->
+        <div class="card">
+            <h2>Thêm câu hỏi mới</h2>
+            <form id="addForm" onsubmit="themCauHoi(event)">
+                <div class="form-grid">
+
+                    <div class="image-upload">
+                        <div class="upload-box" id="uploadBox" onclick="document.getElementById('anhInput').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M4 16l4-4 4 4 4-6 4 6"/>
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            </svg>
+                            Nhấn để chọn ảnh
+                        </div>
+                        <img id="anhPreview" src="" alt="Preview">
+                        <input type="file" id="anhInput" accept="image/*" onchange="xemTruocAnh(this)">
+                        <button type="button" class="choose-file-btn"
+                            onclick="document.getElementById('anhInput').click()">Chọn ảnh...</button>
+                    </div>
+
+                    <div class="form-fields">
+                        <div>
+                            <label>Từ khóa (đáp án chính)</label>
+                            <input type="text" id="tuKhoaInput"
+                                placeholder="Ví dụ: ăn cháo đá bát" required oninput="tuDienDapAn1()">
+                        </div>
+                        <div>
+                            <label>Đáp án chấp nhận (tối đa 3 biến thể)</label>
+                            <div class="dap-an-group">
+                                <input type="text" name="dap_an" id="dapAn1"
+                                    placeholder="Đáp án 1 (sẽ tự điền theo từ khóa)" required>
+                                <input type="text" name="dap_an" id="dapAn2"
+                                    placeholder="Đáp án 2 — phiên bản không dấu (tuỳ chọn)">
+                                <input type="text" name="dap_an" id="dapAn3"
+                                    placeholder="Đáp án 3 — biến thể phát âm (tuỳ chọn)">
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <div>
+                                <label>Điểm thưởng</label>
+                                <input type="number" id="diemInput" value="10" min="1" max="100"
+                                    style="width:90px;">
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn">Thêm câu hỏi</button>
+                        <p id="formMessage"></p>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <!-- Danh sách câu hỏi hiện tại -->
+        <div class="card">
+            <h2 id="listTitle">Danh sách câu hỏi</h2>
+            <div id="tableContainer"><p class="empty-state">Đang tải...</p></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const ADMIN_PASSWORD = "admin123";
+
+    function dangNhap() {
+        const pw = document.getElementById('passwordInput').value;
+        if (pw === ADMIN_PASSWORD) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminScreen').style.display = 'block';
+            taiDanhSach();
+        } else {
+            document.getElementById('loginError').innerText = 'Mật khẩu không đúng!';
+            document.getElementById('passwordInput').select();
+        }
+    }
+
+    function dangXuat() {
+        document.getElementById('loginScreen').style.display = 'flex';
+        document.getElementById('adminScreen').style.display = 'none';
+        document.getElementById('passwordInput').value = '';
+        document.getElementById('loginError').innerText = '';
+    }
+
+    function xemTruocAnh(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const preview = document.getElementById('anhPreview');
+            const box = document.getElementById('uploadBox');
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+            box.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function tuDienDapAn1() {
+        document.getElementById('dapAn1').value = document.getElementById('tuKhoaInput').value;
+    }
+
+    async function themCauHoi(event) {
+        event.preventDefault();
+        const formMsg = document.getElementById('formMessage');
+
+        const anhFile = document.getElementById('anhInput').files[0];
+        if (!anhFile) {
+            formMsg.className = 'error';
+            formMsg.innerText = 'Vui lòng chọn ảnh!';
+            return;
+        }
+
+        const tuKhoa = document.getElementById('tuKhoaInput').value.trim();
+        const dapAnInputs = document.querySelectorAll('[name="dap_an"]');
+        const dapAnList = Array.from(dapAnInputs)
+            .map(i => i.value.trim())
+            .filter(v => v.length > 0);
+        const diem = document.getElementById('diemInput').value;
+
+        const formData = new FormData();
+        formData.append('anh', anhFile);
+        formData.append('tu_khoa', tuKhoa);
+        dapAnList.forEach(d => formData.append('dap_an', d));
+        formData.append('diem', diem);
+
+        formMsg.className = '';
+        formMsg.innerText = 'Đang thêm...';
+
+        try {
+            const res = await fetch('/api/admin/them-cau-hoi', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+
+            if (data.error) {
+                formMsg.className = 'error';
+                formMsg.innerText = 'Lỗi: ' + data.error;
+            } else {
+                formMsg.className = 'success';
+                formMsg.innerText = 'Đã thêm câu hỏi thành công!';
+                document.getElementById('addForm').reset();
+                document.getElementById('anhPreview').style.display = 'none';
+                document.getElementById('uploadBox').style.display = 'flex';
+                taiDanhSach();
+            }
+        } catch (e) {
+            formMsg.className = 'error';
+            formMsg.innerText = 'Không kết nối được server.';
+        }
+    }
+
+    async function taiDanhSach() {
+        const container = document.getElementById('tableContainer');
+        container.innerHTML = '<p class="empty-state">Đang tải...</p>';
+
+        try {
+            const res = await fetch('/api/admin/cau-hoi');
+            const questions = await res.json();
+
+            document.getElementById('listTitle').innerText =
+                `Danh sách câu hỏi (${questions.length} câu)`;
+
+            if (questions.length === 0) {
+                container.innerHTML = '<p class="empty-state">Chưa có câu hỏi nào.</p>';
+                return;
+            }
+
+            const rows = questions.map(q => `
+                <tr>
+                    <td>${q.id}</td>
+                    <td><img class="thumb" src="${q.image}" alt="ảnh"
+                        onerror="this.style.opacity='0.3'"></td>
+                    <td class="keyword-cell">${q.keyword}</td>
+                    <td class="answers-cell">${q.acceptedAnswers.join('<br>')}</td>
+                    <td><span class="badge">${q.points || 10}</span></td>
+                    <td>
+                        <button class="delete-btn"
+                            onclick="xoaCauHoi(${q.id}, '${q.keyword.replace(/'/g, "\\'")}')">
+                            Xóa
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            container.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Ảnh</th>
+                            <th>Từ khóa</th>
+                            <th>Đáp án chấp nhận</th>
+                            <th>Điểm</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            `;
+        } catch (e) {
+            container.innerHTML = '<p class="empty-state error">Không tải được danh sách. Hãy chắc chắn server đang chạy.</p>';
+        }
+    }
+
+    async function xoaCauHoi(id, tuKhoa) {
+        if (!confirm(`Xác nhận xóa câu hỏi "${tuKhoa}"?`)) return;
+
+        try {
+            const res = await fetch(`/api/admin/xoa-cau-hoi/${id}`, { method: 'DELETE' });
+            const data = await res.json();
+            if (data.success) {
+                taiDanhSach();
+            } else {
+                alert('Lỗi: ' + (data.error || 'Không xóa được.'));
+            }
+        } catch (e) {
+            alert('Không kết nối được server.');
+        }
+    }
+</script>
+
+</body>
+</html>
