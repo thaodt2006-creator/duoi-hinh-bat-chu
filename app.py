@@ -21,7 +21,7 @@ recognizer = sr.Recognizer()
 def chuan_hoa(text):
     text = unicodedata.normalize("NFC", text)
     text = text.strip().lower()
-    text = re.sub(r"[^\w\sÀ-ɏḀ-ỿ]", "", text)
+    text = re.sub(r"[^\w\s]", "", text)
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
