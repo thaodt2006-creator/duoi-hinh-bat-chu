@@ -75,10 +75,9 @@
       "keyword": "đồng cam cộng khổ",
       "acceptedAnswers": [
         "đồng cam cộng khổ",
-        "đòng cam cộng khổ",
+        "đồng can cộng khổ",
         "đòng cam cộng khỏ"
       ],
-      "matchThreshold": 0.9,
       "points": 10
     },
     {
@@ -124,6 +123,7 @@
         "vat chanh bo vo",
         "vắt chanh bo vỏ"
       ],
+      "matchThreshold": 0.9,
       "points": 10
     }
   ]
