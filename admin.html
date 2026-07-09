@@ -10,196 +10,199 @@
 
 <body>
 
-<!-- Màn hình đăng nhập -->
-<div id="loginScreen">
-    <h1>Đăng nhập Admin</h1>
-    <input type="password" id="passwordInput" placeholder="Nhập mật khẩu"
-        onkeydown="if(event.key==='Enter') dangNhap()">
-    <button onclick="dangNhap()">Đăng nhập</button>
-    <p id="loginError"></p>
-</div>
-
-<!-- Màn hình quản lý -->
-<div id="adminScreen">
-    <div class="admin-header">
-        <h1>Admin — Đuổi Hình Bắt Chữ</h1>
-        <div class="admin-header-actions">
-            <a href="index.html">Trang chủ</a>
-            <button onclick="dangXuat()">Đăng xuất</button>
-        </div>
+    <!-- Màn hình đăng nhập -->
+    <div id="loginScreen">
+        <h1>Đăng nhập Admin</h1>
+        <input type="password" id="passwordInput" placeholder="Nhập mật khẩu"
+            onkeydown="if(event.key==='Enter') dangNhap()">
+        <button onclick="dangNhap()">Đăng nhập</button>
+        <p id="loginError"></p>
     </div>
 
-    <div class="admin-main">
+    <!-- Màn hình quản lý -->
+    <div id="adminScreen">
+        <div class="admin-header">
+            <h1>Admin — Đuổi Hình Bắt Chữ</h1>
+            <div class="admin-header-actions">
+                <a href="batdau.html">Trang chủ</a>
+                <button onclick="dangXuat()">Đăng xuất</button>
+            </div>
+        </div>
 
-        <!-- Form thêm câu hỏi -->
-        <div class="card">
-            <h2>Thêm câu hỏi mới</h2>
-            <form id="addForm" onsubmit="themCauHoi(event)">
-                <div class="form-grid">
+        <div class="admin-main">
 
-                    <div class="image-upload">
-                        <div class="upload-box" id="uploadBox" onclick="document.getElementById('anhInput').click()">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M4 16l4-4 4 4 4-6 4 6"/>
-                                <rect x="3" y="3" width="18" height="18" rx="2"/>
-                            </svg>
-                            Nhấn để chọn ảnh
-                        </div>
-                        <img id="anhPreview" src="" alt="Preview">
-                        <input type="file" id="anhInput" accept="image/*" onchange="xemTruocAnh(this)">
-                        <button type="button" class="choose-file-btn"
-                            onclick="document.getElementById('anhInput').click()">Chọn ảnh...</button>
-                    </div>
+            <!-- Form thêm câu hỏi -->
+            <div class="card">
+                <h2>Thêm câu hỏi mới</h2>
+                <form id="addForm" onsubmit="themCauHoi(event)">
+                    <div class="form-grid">
 
-                    <div class="form-fields">
-                        <div>
-                            <label>Từ khóa (đáp án chính)</label>
-                            <input type="text" id="tuKhoaInput"
-                                placeholder="Ví dụ: ăn cháo đá bát" required oninput="tuDienDapAn1()">
-                        </div>
-                        <div>
-                            <label>Đáp án chấp nhận (tối đa 3 biến thể)</label>
-                            <div class="dap-an-group">
-                                <input type="text" name="dap_an" id="dapAn1"
-                                    placeholder="Đáp án 1 (sẽ tự điền theo từ khóa)" required>
-                                <input type="text" name="dap_an" id="dapAn2"
-                                    placeholder="Đáp án 2 — phiên bản không dấu (tuỳ chọn)">
-                                <input type="text" name="dap_an" id="dapAn3"
-                                    placeholder="Đáp án 3 — biến thể phát âm (tuỳ chọn)">
+                        <div class="image-upload">
+                            <div class="upload-box" id="uploadBox"
+                                onclick="document.getElementById('anhInput').click()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M4 16l4-4 4 4 4-6 4 6" />
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                </svg>
+                                Nhấn để chọn ảnh
                             </div>
+                            <img id="anhPreview" src="" alt="Preview">
+                            <input type="file" id="anhInput" accept="image/*" onchange="xemTruocAnh(this)">
+                            <button type="button" class="choose-file-btn"
+                                onclick="document.getElementById('anhInput').click()">Chọn ảnh...</button>
                         </div>
-                        <div style="display:flex; align-items:center; gap:12px;">
+
+                        <div class="form-fields">
                             <div>
-                                <label>Điểm thưởng</label>
-                                <input type="number" id="diemInput" value="10" min="1" max="100"
-                                    style="width:90px;">
+                                <label>Từ khóa (đáp án chính)</label>
+                                <input type="text" id="tuKhoaInput" placeholder="Ví dụ: ăn cháo đá bát" required
+                                    oninput="tuDienDapAn1()">
                             </div>
+                            <div>
+                                <label>Đáp án chấp nhận (tối đa 3 biến thể)</label>
+                                <div class="dap-an-group">
+                                    <input type="text" name="dap_an" id="dapAn1"
+                                        placeholder="Đáp án 1 (sẽ tự điền theo từ khóa)" required>
+                                    <input type="text" name="dap_an" id="dapAn2"
+                                        placeholder="Đáp án 2 — phiên bản không dấu (tuỳ chọn)">
+                                    <input type="text" name="dap_an" id="dapAn3"
+                                        placeholder="Đáp án 3 — biến thể phát âm (tuỳ chọn)">
+                                </div>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:12px;">
+                                <div>
+                                    <label>Điểm thưởng</label>
+                                    <input type="number" id="diemInput" value="10" min="1" max="100"
+                                        style="width:90px;">
+                                </div>
+                            </div>
+                            <button type="submit" class="submit-btn">Thêm câu hỏi</button>
+                            <p id="formMessage"></p>
                         </div>
-                        <button type="submit" class="submit-btn">Thêm câu hỏi</button>
-                        <p id="formMessage"></p>
+
                     </div>
+                </form>
+            </div>
 
+            <!-- Danh sách câu hỏi hiện tại -->
+            <div class="card">
+                <h2 id="listTitle">Danh sách câu hỏi</h2>
+                <div id="tableContainer">
+                    <p class="empty-state">Đang tải...</p>
                 </div>
-            </form>
-        </div>
+            </div>
 
-        <!-- Danh sách câu hỏi hiện tại -->
-        <div class="card">
-            <h2 id="listTitle">Danh sách câu hỏi</h2>
-            <div id="tableContainer"><p class="empty-state">Đang tải...</p></div>
         </div>
-
     </div>
-</div>
 
-<script>
-    const ADMIN_PASSWORD = "admin123";
+    <script>
+        const ADMIN_PASSWORD = "123";
 
-    function dangNhap() {
-        const pw = document.getElementById('passwordInput').value;
-        if (pw === ADMIN_PASSWORD) {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('adminScreen').style.display = 'block';
-            taiDanhSach();
-        } else {
-            document.getElementById('loginError').innerText = 'Mật khẩu không đúng!';
-            document.getElementById('passwordInput').select();
-        }
-    }
-
-    function dangXuat() {
-        document.getElementById('loginScreen').style.display = 'flex';
-        document.getElementById('adminScreen').style.display = 'none';
-        document.getElementById('passwordInput').value = '';
-        document.getElementById('loginError').innerText = '';
-    }
-
-    function xemTruocAnh(input) {
-        const file = input.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const preview = document.getElementById('anhPreview');
-            const box = document.getElementById('uploadBox');
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-            box.style.display = 'none';
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function tuDienDapAn1() {
-        document.getElementById('dapAn1').value = document.getElementById('tuKhoaInput').value;
-    }
-
-    async function themCauHoi(event) {
-        event.preventDefault();
-        const formMsg = document.getElementById('formMessage');
-
-        const anhFile = document.getElementById('anhInput').files[0];
-        if (!anhFile) {
-            formMsg.className = 'error';
-            formMsg.innerText = 'Vui lòng chọn ảnh!';
-            return;
-        }
-
-        const tuKhoa = document.getElementById('tuKhoaInput').value.trim();
-        const dapAnInputs = document.querySelectorAll('[name="dap_an"]');
-        const dapAnList = Array.from(dapAnInputs)
-            .map(i => i.value.trim())
-            .filter(v => v.length > 0);
-        const diem = document.getElementById('diemInput').value;
-
-        const formData = new FormData();
-        formData.append('anh', anhFile);
-        formData.append('tu_khoa', tuKhoa);
-        dapAnList.forEach(d => formData.append('dap_an', d));
-        formData.append('diem', diem);
-
-        formMsg.className = '';
-        formMsg.innerText = 'Đang thêm...';
-
-        try {
-            const res = await fetch('/api/admin/them-cau-hoi', {
-                method: 'POST',
-                body: formData
-            });
-            const data = await res.json();
-
-            if (data.error) {
-                formMsg.className = 'error';
-                formMsg.innerText = 'Lỗi: ' + data.error;
-            } else {
-                formMsg.className = 'success';
-                formMsg.innerText = 'Đã thêm câu hỏi thành công!';
-                document.getElementById('addForm').reset();
-                document.getElementById('anhPreview').style.display = 'none';
-                document.getElementById('uploadBox').style.display = 'flex';
+        function dangNhap() {
+            const pw = document.getElementById('passwordInput').value;
+            if (pw === ADMIN_PASSWORD) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminScreen').style.display = 'block';
                 taiDanhSach();
+            } else {
+                document.getElementById('loginError').innerText = 'Mật khẩu không đúng!';
+                document.getElementById('passwordInput').select();
             }
-        } catch (e) {
-            formMsg.className = 'error';
-            formMsg.innerText = 'Không kết nối được server.';
         }
-    }
 
-    async function taiDanhSach() {
-        const container = document.getElementById('tableContainer');
-        container.innerHTML = '<p class="empty-state">Đang tải...</p>';
+        function dangXuat() {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('adminScreen').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('loginError').innerText = '';
+        }
 
-        try {
-            const res = await fetch('/api/admin/cau-hoi');
-            const questions = await res.json();
+        function xemTruocAnh(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const preview = document.getElementById('anhPreview');
+                const box = document.getElementById('uploadBox');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                box.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
 
-            document.getElementById('listTitle').innerText =
-                `Danh sách câu hỏi (${questions.length} câu)`;
+        function tuDienDapAn1() {
+            document.getElementById('dapAn1').value = document.getElementById('tuKhoaInput').value;
+        }
 
-            if (questions.length === 0) {
-                container.innerHTML = '<p class="empty-state">Chưa có câu hỏi nào.</p>';
+        async function themCauHoi(event) {
+            event.preventDefault();
+            const formMsg = document.getElementById('formMessage');
+
+            const anhFile = document.getElementById('anhInput').files[0];
+            if (!anhFile) {
+                formMsg.className = 'error';
+                formMsg.innerText = 'Vui lòng chọn ảnh!';
                 return;
             }
 
-            const rows = questions.map(q => `
+            const tuKhoa = document.getElementById('tuKhoaInput').value.trim();
+            const dapAnInputs = document.querySelectorAll('[name="dap_an"]');
+            const dapAnList = Array.from(dapAnInputs)
+                .map(i => i.value.trim())
+                .filter(v => v.length > 0);
+            const diem = document.getElementById('diemInput').value;
+
+            const formData = new FormData();
+            formData.append('anh', anhFile);
+            formData.append('tu_khoa', tuKhoa);
+            dapAnList.forEach(d => formData.append('dap_an', d));
+            formData.append('diem', diem);
+
+            formMsg.className = '';
+            formMsg.innerText = 'Đang thêm...';
+
+            try {
+                const res = await fetch('/api/admin/them-cau-hoi', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+
+                if (data.error) {
+                    formMsg.className = 'error';
+                    formMsg.innerText = 'Lỗi: ' + data.error;
+                } else {
+                    formMsg.className = 'success';
+                    formMsg.innerText = 'Đã thêm câu hỏi thành công!';
+                    document.getElementById('addForm').reset();
+                    document.getElementById('anhPreview').style.display = 'none';
+                    document.getElementById('uploadBox').style.display = 'flex';
+                    taiDanhSach();
+                }
+            } catch (e) {
+                formMsg.className = 'error';
+                formMsg.innerText = 'Không kết nối được server.';
+            }
+        }
+
+        async function taiDanhSach() {
+            const container = document.getElementById('tableContainer');
+            container.innerHTML = '<p class="empty-state">Đang tải...</p>';
+
+            try {
+                const res = await fetch('/api/admin/cau-hoi');
+                const questions = await res.json();
+
+                document.getElementById('listTitle').innerText =
+                    `Danh sách câu hỏi (${questions.length} câu)`;
+
+                if (questions.length === 0) {
+                    container.innerHTML = '<p class="empty-state">Chưa có câu hỏi nào.</p>';
+                    return;
+                }
+
+                const rows = questions.map(q => `
                 <tr>
                     <td>${q.id}</td>
                     <td><img class="thumb" src="${q.image}" alt="ảnh"
@@ -216,7 +219,7 @@
                 </tr>
             `).join('');
 
-            container.innerHTML = `
+                container.innerHTML = `
                 <table>
                     <thead>
                         <tr>
@@ -231,27 +234,28 @@
                     <tbody>${rows}</tbody>
                 </table>
             `;
-        } catch (e) {
-            container.innerHTML = '<p class="empty-state error">Không tải được danh sách. Hãy chắc chắn server đang chạy.</p>';
-        }
-    }
-
-    async function xoaCauHoi(id, tuKhoa) {
-        if (!confirm(`Xác nhận xóa câu hỏi "${tuKhoa}"?`)) return;
-
-        try {
-            const res = await fetch(`/api/admin/xoa-cau-hoi/${id}`, { method: 'DELETE' });
-            const data = await res.json();
-            if (data.success) {
-                taiDanhSach();
-            } else {
-                alert('Lỗi: ' + (data.error || 'Không xóa được.'));
+            } catch (e) {
+                container.innerHTML = '<p class="empty-state error">Không tải được danh sách. Hãy chắc chắn server đang chạy.</p>';
             }
-        } catch (e) {
-            alert('Không kết nối được server.');
         }
-    }
-</script>
+
+        async function xoaCauHoi(id, tuKhoa) {
+            if (!confirm(`Xác nhận xóa câu hỏi "${tuKhoa}"?`)) return;
+
+            try {
+                const res = await fetch(`/api/admin/xoa-cau-hoi/${id}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    taiDanhSach();
+                } else {
+                    alert('Lỗi: ' + (data.error || 'Không xóa được.'));
+                }
+            } catch (e) {
+                alert('Không kết nối được server.');
+            }
+        }
+    </script>
 
 </body>
+
 </html>
