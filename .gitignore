@@ -4,3 +4,5 @@ __pycache__/
 temp_*.wav
 temp_*_raw
 phan_hoi_*.mp3
+venv/
+duoi-hinh-bat-chu/
